@@ -20,15 +20,15 @@ namespace TicTacToe.GameLogic
         public void PrintBoard()
         {
             Console.WriteLine("Board");
-            for(int i= 0;i<size;i++)
+            for (int i = 0; i < size; i++)
             {
 
                 for (int j = 0; j < size; j++)
                 {
                     Console.Write($"{boardSize[i, j]}");
                     Console.Write("    ");
-                    
-                    if(j < size -1)
+
+                    if (j < size - 1)
                         Console.Write("|");
                 }
                 Console.WriteLine();
@@ -48,6 +48,51 @@ namespace TicTacToe.GameLogic
             }
 
             return moveSuccessful;
+        }
+
+        public bool CheckWinner(int row, int column, PieceEnum piece)
+        {
+            bool isWinner = false;
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (boardSize[row, i] != piece.ToString())
+                    break;
+                if (i == 2)
+                    isWinner = true;
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                if (boardSize[i, column] != piece.ToString())
+                    break;
+                if (i == 2)
+                    isWinner = true;
+            }
+
+            if (row == column)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (boardSize[i, i] != piece.ToString())
+                        break;
+                    if (i == 2)
+                        isWinner = true;
+                }
+            }
+
+            if (row + column == 2)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    if (boardSize[i, 2 - i] != piece.ToString())
+                        break;
+                    if (i == 2)
+                        isWinner = true;
+                }
+            }
+            Console.WriteLine($"{(isWinner ? $"{piece} wins" : "")}");
+            return isWinner;
         }
     }
 }

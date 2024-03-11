@@ -32,14 +32,45 @@ namespace TicTacToe.GameLogic
 
         public void StartGame()
         {
-            Console.WriteLine("Enter row");
-            row = Convert.ToInt16(Console.ReadLine());
-            Console.WriteLine("Enter column");
-            column = Convert.ToInt16(Console.ReadLine());
+            bool isPlayerOneTurn = true;
+            Player player;
+            do
+            {
+                player = GetPlayer(isPlayerOneTurn);
+                Console.WriteLine($"{player.Name} making move"); 
 
-            Console.WriteLine($"{player1.Name} making move");
-            board.MakeMove(player1, row, column);
-            board.PrintBoard();
+                Console.WriteLine("Enter row");
+                row = Convert.ToInt16(Console.ReadLine());
+                Console.WriteLine("Enter column");
+                column = Convert.ToInt16(Console.ReadLine());
+
+                board.MakeMove(player, row, column);
+                board.PrintBoard();
+                isPlayerOneTurn = TogglePlayer(isPlayerOneTurn);
+            } while (!board.CheckWinner(row, column, player.Piece));
+        }
+
+        public Player GetPlayer(bool isPlayerOneTurn)
+        {
+            Player player;
+            switch(isPlayerOneTurn)
+            {
+                case true:
+                    player = player1;
+                    break;
+                case false:
+                    player = player2;
+                    break;
+                default:
+                    player = null; 
+                    break;
+            }
+            return player;
+        }
+
+        public bool TogglePlayer(bool isPlayerOneTurn)
+        {
+            return isPlayerOneTurn ? false : true;
         }
     }
 }
